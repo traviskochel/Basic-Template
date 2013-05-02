@@ -35,12 +35,12 @@ body {background-color: #ffffff; height:100%; position:relative;}
 /* Typography ----------------------------------------------------------------- */
 
 
-body {font-size: 100%;/*16px*/ line-height: 1.375 ; color: #000000;  }
+body {font-size: 100%;/*16px*/ line-height: 1.375em ; color: #000000;  }
 
 h1 {font-size: 3em;/*48px*/ line-height: 1em; font-weight: normal; }
 h2 {font-size: 2.125em;/*34px*/ line-height: 1.2em; font-weight: normal;}
 h3 {font-size: 1.75em;/*28px*/ font-weight: normal; }
-h4 {font-size: 1.3125;/*18px*/ font-weight: normal;  }
+h4 {font-size: 1.3125em;/*21px*/ font-weight: normal;  }
 h5 {font-family: Helvetica, Arial, sans-serif; font-size: 15px;/*48px*/ color:#888888; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; line-height: 22px;  margin-bottom: 11px;}
 
 
