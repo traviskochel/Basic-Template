@@ -1,0 +1,179 @@
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+/* Customized scss based grid, by Scribble Tone
+Based on 960 grid system structure http://960.gs/ */
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+
+
+
+/* ---------------------------------- */
+/* Customization Settings ------------*/
+/* ---------------------------------- */
+
+
+$breakpoints: (1400, 1200, 1000, 750, 600, 400);
+/* Add media query breakpoints and new grid calculations at each of these sizes. Values must be highest to lowest.   */
+ /* The container class is .container */
+
+$columns: 12; 
+/* number of columns */
+
+$gutter: 20; 
+/* total space between each column in px*/
+
+$prefix: '.grid_'; 
+/* prefix for class to call your grid. end with underscore Example output: .grid_6  */
+
+$push: true; 
+/* Push styles on/off. Accepts true/false. Example output: .push_6 */
+
+$pull: false; 
+/* Pull styles on/off. Accepts true/false. Example output: .pull_6 */
+
+$max-font-size: 109; 
+/* Scales body font-size percentage max. If you want no change, set to 100 */
+
+$min-font-size: 80; 
+/* Scales body font-size percentage min. If you want no change, set to 100 */
+
+
+
+/* -------------------------- */
+/* End Customization Settings */
+/* -------------------------- */
+
+
+
+$num-breakpoints: length($breakpoints);
+$font-size-interval:($max-font-size - $min-font-size) / $num-breakpoints ;
+
+
+
+@mixin build-grids($container_width, $i_breakpoint) {
+	@if $i == $length-breakpoints {
+		$container-width: $container-width - 20;  
+	}	
+	@else  {  
+		$container-width: $container-width - 50;
+	}
+	/*nth(list, n)*/
+	$font-size:($max-font-size - ($i_breakpoint * $font-size-interval ) + $font-size-interval)/100;
+	body {
+	  min-width:$container-width + px;
+	  font-size: percentage($font-size);
+	}
+	
+	
+	.container {margin-left: auto; margin-right: auto; width: ($container-width) + px;}
+	
+	
+	$margin: $gutter / 2;
+	
+	/* General styles to all columns --------*/
+	$grid-setup-classes: '' ;
+	@for $i from 1 through $columns {
+	  $grid-setup-classes: $grid-setup-classes + $prefix + $i + ', ' ;
+	}
+	
+	#{$grid-setup-classes} {display:block; float: left; position: relative; margin-left: $margin + px; margin-right: $margin + px;
+		img {width:100%; height: auto;}
+	}
+	
+	
+	/* Grid Widths --------*/
+	$base-column: $container-width / $columns;
+	
+	@for $i from 1 through $columns {
+		
+		#{$prefix +$i} {width: $base-column * $i - $gutter + px}  
+	} 
+	
+	
+	@if $push == true {
+		/* Push --------*/
+		@for $i from 1 through $columns {
+			.push_#{$i}{margin-left: $container-width / $columns * $i + px;}
+		}
+	}
+	
+	@if $pull == true {
+		/* Pull --------*/
+		@for $i from 1 through $columns {
+			.pull_#{$i}{margin-left: $container-width / $columns * (-$i) + px;}
+		}
+	}
+	
+	
+	.grid-margins {margin-right:$margin + px; margin-left:$margin + px;}
+	.grid-margin-left{margin-left:$margin + px;}
+	.grid-margin-right{margin-right:$margin + px;}
+	
+	.grid-paddings {padding-right:$margin + px; padding-left:$margin + px;}
+	
+} /* end main mixin */
+
+
+
+/* iterate over mixin for each breakpoint --------*/
+$i: 1;
+$length-breakpoints: length($breakpoints);
+@each $width in $breakpoints{
+	@if $i == 1 {
+		/*first cycle */	
+		@include build-grids($width, $i);
+		
+	} @else if $i == $length-breakpoints {
+		/*last cycle */	
+		
+		@media only screen and (max-width: (nth($breakpoints,($i - 1)) - 1) + px) {  
+		  @include build-grids($width, $i);
+		}
+		
+	} @else {
+		/*middle cycles */	
+	 /*.working {width: $width; height:nth($breakpoints, ($i - 1) ) }*/
+	 	
+		@media only screen and (min-width: $width + px) and (max-width: (nth($breakpoints,($i - 1)) - 1) + px) {  
+		  @include build-grids($width, $i);
+		  
+		}
+	
+	}
+	
+	$i: $i + 1;
+	
+}
+
+
+/* iphone 5 320 x 568 */
+
+
+
+
+
+/* Other stuff --------*/
+.alpha {margin-left: 0;}
+.omega {margin-right: 0;}
+
+/* Clear Floated Elements --------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before, .clearfix:after { content: '\0020'; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+
+.clearfix:after {clear: both;}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix {zoom: 1;}
